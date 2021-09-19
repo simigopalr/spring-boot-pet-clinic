@@ -1,21 +1,9 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: pet-clinic-cicd
-spec:
-  type: LoadBalancer
-  ports:
-    - port: 80
-      targetPort: 80
-  selector:
-    app: pet-clinic-cicd
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pet-clinic-cicd
+  name: helm-pet-clinic
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: pet-clinic-cicd
@@ -25,8 +13,8 @@ spec:
         app: pet-clinic-cicd
     spec:
       containers:
-        - name: pet-clinic-cicd
-          image: CONTAINER_IMAGE
+        - name: {{ .Values.service.name }}
+          image: {{ .Values.image.repository }}
           imagePullPolicy: IfNotPresent
           securityContext:
             privileged: false
