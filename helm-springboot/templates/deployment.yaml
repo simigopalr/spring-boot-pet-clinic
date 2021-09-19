@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helm-pet-clinic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pet-clinic-cicd
+  template:
+    metadata:
+      labels:
+        app: pet-clinic-cicd
+    spec:
+      containers:
+        - name: {{ .Values.service.name }}
+          image: {{ .Values.image.repository }}
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: false
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+          ports:
+            - containerPort: 80
