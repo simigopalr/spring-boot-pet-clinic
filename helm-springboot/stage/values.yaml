@@ -12,4 +12,4 @@ image:
   tag: ""
 
 service:
-  name: stage-helm-springboot
+  name: helm-springboot
